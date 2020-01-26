@@ -6,15 +6,28 @@ export const run = async (...params) => {
 	if (process.env.CONTEXT === 'browser-dev') {
 		const [rootId, ] = params
 		const [
-			React,
-			{ default: ReactDOM, }
+			{ createElement, },
+			{ default: ReactDOM, },
+			{ createBrowserHistory, }
+
 		] = await Promise.all([
 			import('react'),
 			import('react-dom'),
+			import('history'),
 		])
 
+		const history = createBrowserHistory()
+
 		ReactDOM.render(
-			React.createElement(App),
+			createElement(
+				App,
+				{
+					history,
+					datasets: {
+						...JSON.parse(window.localStorage.getItem('murasaki-dataset-kanjidic2'))
+					},
+				}
+			),
 			window.document.getElementById(rootId)
 		)
 	}

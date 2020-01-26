@@ -19,7 +19,6 @@ const prepareEnvVariablesForReplace = variables => (
 	Object
 		.entries(variables)
 		.filter(([key, ]) => key.startsWith(REACT_APP_VARIABLE_PREFIX))
-		.map(([key, value, ]) => [`process.env.${key}`, value])
 		.reduce(
 			(theVariables, [key, value, ]) => ({
 				...theVariables,
@@ -33,7 +32,53 @@ const { parsed: DOTENV_CONFIG } = dotenv.config()
 
 const REPLACE_ENV_VARIABLES = prepareEnvVariablesForReplace(DOTENV_CONFIG)
 
+const reactExports = [
+	'createElement',
+	'cloneElement',
+	'createContext',
+	'Children',
+	'Component',
+	'PureComponent',
+	'Fragment',
+	'useContext',
+	'useReducer',
+	'useEffect',
+	'useRef',
+	'useState',
+	'useCallback',
+	'useMemo',
+	'useLayoutEffect',
+	'forwardRef',
+	'isValidElement',
+	'Suspense',
+	'lazy',
+	'useDebugValue',
+]
+
+const propTypeExports = [
+	'array',
+	'bool',
+	'func',
+	'number',
+	'object',
+	'string',
+	'symbol',
+	'any',
+	'arrayOf',
+	'element',
+	'elementType',
+	'instanceOf',
+	'node',
+	'objectOf',
+	'oneOf',
+	'oneOfType',
+	'shape',
+	'exact',
+]
+
 let config
+
+console.log(REPLACE_ENV_VARIABLES)
 
 switch (process.env.CONTEXT) {
 	case 'browser-dev':
@@ -57,25 +102,7 @@ switch (process.env.CONTEXT) {
 				commonjs({
 					include: /node_modules/,
 					namedExports: {
-						'react': [
-							'createElement',
-							'cloneElement',
-							'createContext',
-							'Children',
-							'Component',
-							'PureComponent',
-							'Fragment',
-							'useContext',
-							'useReducer',
-							'useEffect',
-							'useRef',
-							'useState',
-							'useCallback',
-							'useMemo',
-							'useLayoutEffect',
-							'forwardRef',
-							'isValidElement',
-						],
+						'react': reactExports,
 						'../../node_modules/react-dom/index.js': [
 							'unstable_batchedUpdates',
 						],
@@ -85,45 +112,8 @@ switch (process.env.CONTEXT) {
 							'isContextConsumer',
 							'ForwardRef',
 						],
-						'../../node_modules/react/index.js': [
-							'createElement',
-							'cloneElement',
-							'createContext',
-							'Children',
-							'Component',
-							'PureComponent',
-							'Fragment',
-							'useContext',
-							'useReducer',
-							'useEffect',
-							'useRef',
-							'useState',
-							'useCallback',
-							'useMemo',
-							'useLayoutEffect',
-							'forwardRef',
-							'isValidElement',
-						],
-						'../../node_modules/prop-types/index.js': [
-							'array',
-							'bool',
-							'func',
-							'number',
-							'object',
-							'string',
-							'symbol',
-							'any',
-							'arrayOf',
-							'element',
-							'elementType',
-							'instanceOf',
-							'node',
-							'objectOf',
-							'oneOf',
-							'oneOfType',
-							'shape',
-							'exact',
-						],
+						'../../node_modules/react/index.js': reactExports,
+						'../../node_modules/prop-types/index.js': propTypeExports,
 					},
 				}),
 				nodeBuiltins(),
@@ -135,7 +125,7 @@ switch (process.env.CONTEXT) {
 					historyApiFallback: true,
 				}),
 				livereload({
-					watch: ['.cache', 'public'],
+					watch: ['.cache', 'public', 'src'],
 				}),
 			],
 		}

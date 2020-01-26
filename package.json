@@ -18,11 +18,17 @@
 	},
 	"dependencies": {
 		"@babel/runtime": "^7.8.3",
+		"camel-case": "^4.1.1",
 		"dotenv": "^8.2.0",
+		"history": "^4.10.1",
+		"param-case": "^3.0.3",
+		"prop-types": "^15.7.2",
 		"react": "^16.12.0",
 		"react-dom": "^16.12.0",
+		"react-hook-form": "^4.7.1",
 		"react-router": "^5.1.2",
-		"react-router-dom": "^5.1.2"
+		"react-router-dom": "^5.1.2",
+		"styled-components": "^5.0.0"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.8.3",

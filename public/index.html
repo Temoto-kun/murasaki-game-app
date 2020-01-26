@@ -4,11 +4,63 @@
   <meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=n">
   <title>Murasaki</title>
+	<style>
+		:root {
+			--color-primary: blue;
+			--color-primary-inverse: white;
+			--color-positive: black;
+			--color-negative: white;
+			--font-family-base: system-ui, sans-serif;
+			--font-family-monospace: mononoki, monospace;
+			--font-stretch-base: semi-expanded;
+			--font-weight-base: 400;
+			--font-size-base: 16px;
+			--font-stretch-headings: condensed;
+			--font-weight-headings: 200;
+			--line-height-base: 1.5;
+			--line-height-headings: 1.125;
+		}
+
+		:root {
+			background-color: var(--color-negative);
+			color: var(--color-positive);
+			line-height: var(--line-height-base);
+			font-size: var(--font-size-base);
+			font-family: var(--font-family-base);
+			font-weight: var(--font-weight-base);
+			font-stretch: var(--font-stretch-base);
+		}
+
+		h1, h2, h3, h4, h5, h6 {
+			font-weight: var(--font-weight-headings);
+			font-stretch: var(--font-stretch-headings);
+		}
+
+		body {
+			margin: 0;
+		}
+
+		a:link {
+			color: var(--color-primary);
+		}
+
+		a:visited {
+			color: var(--color-primary);
+		}
+
+		:root {
+			font-family: var(--font-family-base);
+		}
+
+		body {
+			margin: 0;
+		}
+	</style>
 </head>
 <body>
 <div id="root"></div>
 <script type="module">
-	import { run, } from './index.js'
+	import { run, } from '/index.js'
 
 	run('root')
 </script>
