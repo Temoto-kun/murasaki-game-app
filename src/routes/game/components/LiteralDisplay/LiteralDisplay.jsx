@@ -8,6 +8,7 @@ const Base = styled('h1')({
 	placeContent: 'center',
 	fontSize: '8rem',
 	fontWeight: 'inherit',
+	lineHeight: 1,
 })
 
 const Wrapper = styled('div')({
@@ -27,9 +28,13 @@ for (let i = 0; i < 35; i++) {
 const Img = styled('svg')({
 	height: '100%',
 	width: '100%',
-	position: 'absolute',
-	top: 0,
-	left: 0,
+	display: 'block',
+	path: {
+		stroke: 'currentColor',
+	}
+})
+
+const Animated = styled(Img)({
 	['g[id^="kvg:StrokeNumbers"]']: {
 		display: 'none',
 	},
@@ -50,6 +55,14 @@ const Placeholder = styled('div')({
 	opacity: 0.15,
 })
 
+const LiteralForeground = styled('div')({
+	height: '100%',
+	width: '100%',
+	position: 'absolute',
+	top: 0,
+	left: 0,
+})
+
 const fetchLiteralImage = async literal => {
 	if (literal === '') {
 		return null
@@ -63,6 +76,12 @@ const fetchLiteralImage = async literal => {
 	const strokeOrderPath = `/stroke-order/${strokeOrderBasename}.svg`
 
 	const response = await fetch(strokeOrderPath)
+
+	if (response.headers.get('Content-Type') !== 'image/svg+xml') {
+		return null
+	}
+
+	// TODO have fallback for kanji without stroke orders
 	return response.text()
 }
 
@@ -76,17 +95,23 @@ const LiteralDisplay = ({
 	...etcProps
 }) => {
 	const [literalDisplay, setLiteralDisplay, ] = React.useState(null)
+	const [fallback, setFallback, ] = React.useState(null)
 	const [id, setId, ] = React.useState(0)
 
 	React.useEffect(() => {
 		const doFetchLiteralImage = async () => {
+			setFallback(null)
 			const literalImageData = await fetchLiteralImage(literal)
+			const isFallback = literalImageData === null
+			setFallback(isFallback)
 
-			setLiteralDisplay(
-				literalImageData
-					.replace(/<svg(.+?)>/, '')
-					.replace(/<\/svg>/, '')
-			)
+			if (!isFallback) {
+				setLiteralDisplay(
+					literalImageData
+						.replace(/<svg(.+?)>/, '')
+						.replace(/<\/svg>/, '')
+				)
+			}
 		}
 
 		doFetchLiteralImage()
@@ -97,31 +122,45 @@ const LiteralDisplay = ({
 			{...etcProps}
 		>
 			{
-				literalDisplay
+				typeof fallback === 'boolean'
 				&& (
 					<Wrapper>
-						<Placeholder>
-							<svg
-								viewBox="0 0 109 109"
-								style={{
-									width: '100%',
-									height: '100%',
-									display: 'block',
-								}}
-								dangerouslySetInnerHTML={{
-									__html: literalDisplay
-
-								}}
-							/>
-						</Placeholder>
-						<Img
-							key={id}
-							viewBox="0 0 109 109"
-							dangerouslySetInnerHTML={{
-								__html: literalDisplay
-							}}
-							onClick={restartAnimation({ setId, })}
-						/>
+						{
+							!fallback
+							&& (
+								<Placeholder>
+									<Img
+										viewBox="0 0 109 109"
+										dangerouslySetInnerHTML={{
+											__html: literalDisplay
+										}}
+									/>
+								</Placeholder>
+							)
+						}
+						<LiteralForeground>
+							{
+								!fallback
+								&& (
+									<Animated
+										key={id}
+										viewBox="0 0 109 109"
+										dangerouslySetInnerHTML={{
+											__html: literalDisplay
+										}}
+										onClick={restartAnimation({ setId, })}
+									/>
+								)
+							}
+							{
+								fallback
+								&& (
+									<React.Fragment>
+										{literal}
+									</React.Fragment>
+								)
+							}
+						</LiteralForeground>
 					</Wrapper>
 				)
 			}

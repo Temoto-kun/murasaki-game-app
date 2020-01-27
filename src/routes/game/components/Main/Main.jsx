@@ -30,6 +30,14 @@ const TabLink = styled('a')({
 	padding: '1rem 2rem',
 	boxSizing: 'border-box',
 	textDecoration: 'none',
+	color: 'inherit',
+	textTransform: 'uppercase',
+	':link': {
+		color: 'inherit',
+	},
+	':visited': {
+		color: 'inherit',
+	},
 	'@media (min-width: 640px)': {
 		minWidth: 0,
 	},
@@ -46,6 +54,11 @@ const Footer = styled('footer')({
 
 const AnswerCounter = styled('div')({
 	marginBottom: '1rem',
+})
+
+const Header = styled('header')({
+	color: 'var(--color-primary-inverse)',
+	backgroundColor: 'var(--color-primary)',
 })
 
 const JAPANESE_READINGS = [
@@ -152,7 +165,10 @@ const Main = ({
 			])
 		}
 
-		const fourWords = englishMeanings.slice(0, 4)
+		const fourWords = englishMeanings
+			.sort(() => Math.floor(Math.random() * 2) - 1)
+			.slice(0, 4)
+		
 		const theFourWords = [
 			...fourWords,
 			...fourWords,
@@ -170,6 +186,14 @@ const Main = ({
 					doFetchImage(meaning, i)
 				}, i * 3500)
 			})
+
+		return () => {
+			timers.current
+				.filter(c => c !== null)
+				.forEach(c => {
+					clearTimeout(c)
+				})
+		}
 	}, [character, ])
 
 	const {
@@ -188,7 +212,7 @@ const Main = ({
 
 	return (
 		<Base>
-			<header>
+			<Header>
 				<LiteralDisplay
 					literal={literal}
 				/>
@@ -197,13 +221,15 @@ const Main = ({
 						{
 							JAPANESE_READINGS.map(r => (
 								reading.filter(r2 => r2['@_r_type'] === r.id).length > 0
-								&& <TabLink
-									key={r.id}
-									href={`#${r.id}`}
-									onClick={displayAvailableReadings({ setActiveReadings, })(r)}
-								>
-									{r.name}
-								</TabLink>
+								&& (
+									<TabLink
+										key={r.id}
+										href={`#${r.id}`}
+										onClick={displayAvailableReadings({ setActiveReadings, })(r)}
+									>
+										{r.name}
+									</TabLink>
+								)
 							))
 						}
 					</TabLinkContainer>
@@ -217,7 +243,7 @@ const Main = ({
 						)
 					}
 				</TabPanel>
-			</header>
+			</Header>
 			<StyledImageDisplay
 				images={images}
 			/>

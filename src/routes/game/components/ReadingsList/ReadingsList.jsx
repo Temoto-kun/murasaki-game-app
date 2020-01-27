@@ -3,6 +3,10 @@ import * as PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Button from '../../../../components/Button/Button.jsx'
 
+const Base = styled('div')({
+	'--color-primary': 'var(--color-primary-inverse)',
+})
+
 const ReadingButton = styled(Button)({
 	padding: '0.5rem 1rem',
 	margin: '0.5rem',
@@ -61,7 +65,7 @@ const ReadingsList = ({
 	}, [readings, ])
 
 	return (
-		<div>
+		<Base>
 			{
 				readings.map(r => (
 					<ReadingButton
@@ -73,7 +77,7 @@ const ReadingsList = ({
 					</ReadingButton>
 				))
 			}
-		</div>
+		</Base>
 	)
 }
 

@@ -21,6 +21,8 @@ const Base = styled('button')({
 	borderRadius: '0.25rem',
 	placeContent: 'center',
 	cursor: 'pointer',
+	textDecoration: 'none',
+	boxSizing: 'border-box',
 })
 
 /**
