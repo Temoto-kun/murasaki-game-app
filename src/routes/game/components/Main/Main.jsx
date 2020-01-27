@@ -1,14 +1,11 @@
 import * as React from 'react'
 import * as PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { NavLink, } from 'react-router-dom'
-import { Route, } from 'react-router'
 
 import AnswerForm from '../AnswerForm/AnswerForm.jsx'
 import LiteralDisplay from '../LiteralDisplay/LiteralDisplay.jsx'
 import ImageDisplay from '../ImageDisplay/ImageDisplay.jsx'
 import ReadingsList from '../ReadingsList/ReadingsList.jsx'
-import { clearTimeout } from 'rollup-plugin-node-builtins/src/es6/timers'
 
 const Base = styled('main')({
 	display: 'flex',
@@ -24,7 +21,7 @@ const TabLinkContainer = styled('nav')({
 	overflow: 'auto',
 })
 
-const TabLink = styled(NavLink)({
+const TabLink = styled('a')({
 	display: 'grid',
 	placeContent: 'center',
 	flex: 'auto',
@@ -66,6 +63,7 @@ const submitAnswer = ({
 	meaning,
 	setAnswered,
 	setImages,
+	setActiveReadings,
 }) => (values, e) => {
 	const { answer, } = values
 	const englishMeanings = meaning
@@ -75,6 +73,7 @@ const submitAnswer = ({
 	if (englishMeanings.includes(answer.toLowerCase())) {
 		setAnswered(answered => answered + 1)
 		setImages([])
+		setActiveReadings(null)
 	}
 
 	e.target.reset({})
@@ -92,14 +91,17 @@ const fetchImage = async q => {
 	return response.json()
 }
 
+const displayAvailableReadings = ({ setActiveReadings, }) => reading => e => {
+	e.preventDefault()
+	setActiveReadings(reading.id)
+}
+
 const Main = ({
-	match: {
-		path,
-		url,
-	},
 	datasets,
+	// TODO use filters for JLPT level, Jouyou grade, etc.
 }) => {
 	const timers = React.useRef([null, null, null, null])
+	const [activeReadings, setActiveReadings, ] = React.useState(null)
 	const [answered, setAnswered, ] = React.useState(0)
 	const [character, setCharacter, ] = React.useState({
 		literal: '',
@@ -197,22 +199,23 @@ const Main = ({
 								reading.filter(r2 => r2['@_r_type'] === r.id).length > 0
 								&& <TabLink
 									key={r.id}
-									to={`${url}/readings/${r.id}`}
+									href={`#${r.id}`}
+									onClick={displayAvailableReadings({ setActiveReadings, })(r)}
 								>
 									{r.name}
 								</TabLink>
 							))
 						}
 					</TabLinkContainer>
-					<Route
-						path={`${path}/readings/:type`}
-						render={routeProps => (
+					{
+						activeReadings !== null
+						&& (
 							<ReadingsList
-								{...routeProps}
 								reading={reading}
+								type={activeReadings}
 							/>
-						)}
-					/>
+						)
+					}
 				</TabPanel>
 			</header>
 			<StyledImageDisplay
@@ -227,6 +230,7 @@ const Main = ({
 						meaning,
 						setAnswered,
 						setImages,
+						setActiveReadings,
 					})}
 				/>
 			</Footer>
@@ -235,10 +239,6 @@ const Main = ({
 }
 
 Main.propTypes = {
-	match: PropTypes.shape({
-		path: PropTypes.string,
-		url: PropTypes.string,
-	}),
 	datasets: PropTypes.object,
 }
 

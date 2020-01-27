@@ -18,7 +18,7 @@ const speakReading = r => () => {
 	const [firstJapaneseVoice = null, ] = japaneseVoices
 
 	if (firstJapaneseVoice !== null) {
-		const utterance = new SpeechSynthesisUtterance(r)
+		const utterance = new SpeechSynthesisUtterance(r.replace(/[.-]/g, ''))
 		utterance.voice = firstJapaneseVoice
 		utterance.pitch = 1
 		utterance.rate = 0.7
@@ -28,11 +28,7 @@ const speakReading = r => () => {
 
 const ReadingsList = ({
 	reading,
-	match: {
-		params: {
-			type,
-		},
-	},
+	type,
 }) => {
 	const [readings, setReadings, ] = React.useState([])
 
@@ -55,7 +51,7 @@ const ReadingsList = ({
 
 		if (firstJapaneseVoice !== null) {
 			readings.forEach(r => {
-				const utterance = new SpeechSynthesisUtterance(r)
+				const utterance = new SpeechSynthesisUtterance(r.replace(/[.-]/g, ''))
 				utterance.voice = firstJapaneseVoice
 				utterance.pitch = 1
 				utterance.rate = 0.7
@@ -83,11 +79,7 @@ const ReadingsList = ({
 
 ReadingsList.propTypes = {
 	reading: PropTypes.arrayOf(PropTypes.object),
-	match: PropTypes.shape({
-		params: PropTypes.shape({
-			type: PropTypes.string,
-		}),
-	}),
+	type: PropTypes.string,
 }
 
 export default ReadingsList
