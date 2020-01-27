@@ -1,13 +1,28 @@
 import * as React from 'react'
 import * as PropTypes from 'prop-types'
 import styled from 'styled-components'
+import Button from '../../../../components/Button/Button.jsx'
 
-const ReadingButton = styled('button')({
-	border: 0,
-	padding: '1rem',
-	font: 'inherit',
-	lineHeight: 'inherit',
+const ReadingButton = styled(Button)({
+	padding: '0.5rem 1rem',
+	margin: '0.5rem',
 })
+
+const speakReading = r => () => {
+	const { speechSynthesis, } = window
+	const japaneseVoices = speechSynthesis
+		.getVoices()
+		.filter(v => v.lang === 'ja-JP')
+
+	// TODO be able to select other Japanese voice
+	const [firstJapaneseVoice, ] = japaneseVoices
+
+	const utterance = new SpeechSynthesisUtterance(r)
+	utterance.voice = firstJapaneseVoice
+	utterance.pitch = 1
+	utterance.rate = 0.7
+	speechSynthesis.speak(utterance)
+}
 
 const ReadingsList = ({
 	reading,
@@ -27,6 +42,24 @@ const ReadingsList = ({
 		setReadings(theReadings)
 	}, [reading, type, ])
 
+	React.useEffect(() => {
+		const { speechSynthesis, } = window
+		const japaneseVoices = speechSynthesis
+			.getVoices()
+			.filter(v => v.lang === 'ja-JP')
+
+		// TODO be able to select other Japanese voice
+		const [firstJapaneseVoice, ] = japaneseVoices
+
+		readings.forEach(r => {
+			const utterance = new SpeechSynthesisUtterance(r)
+			utterance.voice = firstJapaneseVoice
+			utterance.pitch = 1
+			utterance.rate = 0.7
+			speechSynthesis.speak(utterance)
+		})
+	}, [readings, ])
+
 	return (
 		<div>
 			{
@@ -34,6 +67,7 @@ const ReadingsList = ({
 					<ReadingButton
 						key={r}
 						type="button"
+						onClick={speakReading(r)}
 					>
 						{r}
 					</ReadingButton>

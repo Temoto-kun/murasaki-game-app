@@ -8,6 +8,7 @@ import AnswerForm from '../AnswerForm/AnswerForm.jsx'
 import LiteralDisplay from '../LiteralDisplay/LiteralDisplay.jsx'
 import ImageDisplay from '../ImageDisplay/ImageDisplay.jsx'
 import ReadingsList from '../ReadingsList/ReadingsList.jsx'
+import { clearTimeout } from 'rollup-plugin-node-builtins/src/es6/timers'
 
 const Base = styled('main')({
 	display: 'flex',
@@ -31,6 +32,7 @@ const TabLink = styled(NavLink)({
 	minWidth: '50%',
 	padding: '1rem 2rem',
 	boxSizing: 'border-box',
+	textDecoration: 'none',
 	'@media (min-width: 640px)': {
 		minWidth: 0,
 	},
@@ -43,6 +45,10 @@ const StyledImageDisplay = styled(ImageDisplay)({
 const Footer = styled('footer')({
 	padding: '1rem',
 	boxSizing: 'border-box',
+})
+
+const AnswerCounter = styled('div')({
+	marginBottom: '1rem',
 })
 
 const JAPANESE_READINGS = [
@@ -93,6 +99,7 @@ const Main = ({
 	},
 	datasets,
 }) => {
+	const timers = React.useRef([null, null, null, null])
 	const [answered, setAnswered, ] = React.useState(0)
 	const [character, setCharacter, ] = React.useState({
 		literal: '',
@@ -154,7 +161,10 @@ const Main = ({
 
 		theFourWords
 			.forEach((meaning, i) => {
-				setTimeout(() => {
+				if (timers.current[i] !== null) {
+					clearTimeout(timers.current[i])
+				}
+				timers.current[i] = setTimeout(() => {
 					doFetchImage(meaning, i)
 				}, i * 3500)
 			})
@@ -209,7 +219,9 @@ const Main = ({
 				images={images}
 			/>
 			<Footer>
-				{answered}
+				<AnswerCounter>
+					Items Answered: <output>{answered}</output>
+				</AnswerCounter>
 				<AnswerForm
 					onSubmit={submitAnswer({
 						meaning,
