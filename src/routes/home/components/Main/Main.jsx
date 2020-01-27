@@ -46,7 +46,7 @@ const Title = styled('h1')({
 const Subtitle = styled('h2')({
 	textAlign: 'center',
 	fontSize: '4rem',
-	margin: '2rem 0',
+	margin: '0 0 2rem',
 	textTransform: 'lowercase',
 	//fontWeight: 'bold',
 	fontWeight: 'light',
@@ -73,7 +73,6 @@ const Main = () => {
 		const SA_CHARACTERS = ['さ', ...getCharactersFromCodePointRange([0x1b03c, 0x1b043])]
 		const KI_CHARACTERS = ['き', ...getCharactersFromCodePointRange([0x1b023, 0x1b02a])]
 
-
 		setTitle(
 			[
 				MU_CHARACTERS[Math.floor(Math.random() * MU_CHARACTERS.length)],
@@ -84,6 +83,7 @@ const Main = () => {
 				.join('')
 		)
 	}, [])
+
 	return (
 		<Base>
 			<Content>
@@ -97,7 +97,7 @@ const Main = () => {
 					<Button
 						as={Link}
 						block
-						to="/game"
+						to="/options"
 						variant="primary"
 					>
 						Start Game

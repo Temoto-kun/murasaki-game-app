@@ -38,7 +38,7 @@ const TabLink = styled('a')({
 	':visited': {
 		color: 'inherit',
 	},
-	'@media (min-width: 640px)': {
+	'@media (min-width: 720px)': {
 		minWidth: 0,
 	},
 })
@@ -168,7 +168,7 @@ const Main = ({
 		const fourWords = englishMeanings
 			.sort(() => Math.floor(Math.random() * 2) - 1)
 			.slice(0, 4)
-		
+
 		const theFourWords = [
 			...fourWords,
 			...fourWords,

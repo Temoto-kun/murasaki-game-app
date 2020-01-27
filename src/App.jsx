@@ -1,11 +1,11 @@
 import * as React from 'react'
 import * as PropTypes from 'prop-types'
-import { Router, Route, } from 'react-router'
+import { Router, Route, Redirect, } from 'react-router'
 
 import Loading from './components/Loading/Loading.jsx'
 
-import Home from './routes/home/components/Main/Main.jsx'
-
+const Home = React.lazy(() => import('./routes/home/components/Main/Main.jsx'))
+const Options = React.lazy(() => import('./routes/options/components/Main/Main.jsx'))
 const Game = React.lazy(() => import('./routes/game/components/Main/Main.jsx'))
 
 const App = ({
@@ -17,7 +17,19 @@ const App = ({
 			<Route
 				path="/"
 				exact
+				render={() => (
+					<Redirect
+						to="/home"
+					/>
+				)}
+			/>
+			<Route
+				path="/home"
 				component={Home}
+			/>
+			<Route
+				path="/options"
+				component={Options}
 			/>
 			<Route
 				path="/game"

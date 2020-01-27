@@ -7,7 +7,7 @@ import TextInput from '../../../../components/TextInput/TextInput.jsx'
 import Button from '../../../../components/Button/Button.jsx'
 
 const Form = styled('form')({
-	'@media (min-width: 640px)': {
+	'@media (min-width: 720px)': {
 		display: 'flex',
 	},
 })
@@ -26,7 +26,7 @@ const Legend = styled('legend')({
 const TextInputWrapper = styled('div')({
 	flex: 'auto',
 	marginBottom: '1rem',
-	'@media (min-width: 640px)': {
+	'@media (min-width: 720px)': {
 		marginRight: '1rem',
 		marginBottom: 0,
 	},

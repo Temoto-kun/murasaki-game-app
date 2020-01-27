@@ -25,6 +25,20 @@ const Base = styled('button')({
 	boxSizing: 'border-box',
 })
 
+const defaultVariantStyleSet = {
+	...themable('background-color', 'transparent'),
+	...themable('border-color', 'var(--color-primary, currentColor)'),
+	...themable('color', 'var(--color-primary, currentColor)'),
+}
+const variantStyleSets = {
+	outline: defaultVariantStyleSet,
+	primary: {
+		...themable('background-color', 'var(--color-primary, currentColor)'),
+		...themable('border-color', 'var(--color-primary, currentColor)'),
+		...themable('color', 'var(--color-primary-inverse, white)'),
+	}
+}
+
 /**
  * Component for performing an action upon activation (e.g. when clicked).
  */
@@ -35,20 +49,6 @@ const Button = ({
 	children,
 	...etcProps
 }) => {
-	const defaultVariantStyleSet = {
-		...themable('background-color', 'transparent'),
-		...themable('border-color', 'var(--color-primary, currentColor)'),
-		...themable('color', 'var(--color-primary, currentColor)'),
-	}
-	const variantStyleSets = {
-		outline: defaultVariantStyleSet,
-		primary: {
-			...themable('background-color', 'var(--color-primary, currentColor)'),
-			...themable('border-color', 'var(--color-primary, currentColor)'),
-			...themable('color', 'var(--color-primary-inverse, white)'),
-		}
-	}
-
 	const { [variant]: theVariantStyleSet = defaultVariantStyleSet, } = variantStyleSets
 
 	return (

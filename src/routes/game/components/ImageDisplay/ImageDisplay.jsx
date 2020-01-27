@@ -6,7 +6,7 @@ const Base = styled('div')({
 	display: 'grid',
 	gridTemplateColumns: 'repeat(2, 1fr)',
 	gridTemplateRows: 'repeat(2, 1fr)',
-	'@media (min-width: 640px)': {
+	'@media (min-width: 720px)': {
 		gridTemplateColumns: 'repeat(4, 1fr)',
 		gridTemplateRows: 'repeat(1, 1fr)',
 	},
