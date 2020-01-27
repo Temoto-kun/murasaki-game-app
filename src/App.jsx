@@ -5,8 +5,9 @@ import { Router, Route, Redirect, } from 'react-router'
 import Loading from './components/Loading/Loading.jsx'
 
 const Home = React.lazy(() => import('./routes/home/components/Main/Main.jsx'))
-const Options = React.lazy(() => import('./routes/options/components/Main/Main.jsx'))
+const Start = React.lazy(() => import('./routes/start/components/Main/Main.jsx'))
 const Game = React.lazy(() => import('./routes/game/components/Main/Main.jsx'))
+const Datasets = React.lazy(() => import('./routes/datasets/components/Main/Main.jsx'))
 
 const App = ({
 	history,
@@ -28,8 +29,12 @@ const App = ({
 				component={Home}
 			/>
 			<Route
-				path="/options"
-				component={Options}
+				path="/start"
+				component={Start}
+			/>
+			<Route
+				path="/datasets"
+				component={Datasets}
 			/>
 			<Route
 				path="/game"

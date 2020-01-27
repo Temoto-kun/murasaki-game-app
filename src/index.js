@@ -18,13 +18,18 @@ export const run = async (...params) => {
 
 		const history = createBrowserHistory()
 
+		const kanjidic2 = JSON.parse(window.localStorage.getItem('murasaki-dataset-kanjidic2'))
+
 		ReactDOM.render(
 			createElement(
 				App,
 				{
 					history,
 					datasets: {
-						...JSON.parse(window.localStorage.getItem('murasaki-dataset-kanjidic2'))
+						kanjidic2: {
+							...kanjidic2,
+							entry: kanjidic2.entry.filter(e => e.misc.jlpt === '4'),
+						}
 					},
 				}
 			),

@@ -54,6 +54,10 @@ const Subtitle = styled('h2')({
 	color: 'var(--color-primary)',
 })
 
+const ButtonWrapper = styled('div')({
+	margin: '1rem 0',
+})
+
 const getCharactersFromCodePointRange = range => {
 	const characters = []
 	const [start, end] = range
@@ -67,6 +71,8 @@ const getCharactersFromCodePointRange = range => {
 
 const Main = () => {
 	const [title, setTitle, ] = React.useState('むらさき')
+	const [hasDataset, setHasDataset, ] = React.useState(false)
+
 	React.useEffect(() => {
 		const MU_CHARACTERS = ['む', ...getCharactersFromCodePointRange([0x1b0d0, 0x1b0d3])]
 		const RA_CHARACTERS = ['ら', ...getCharactersFromCodePointRange([0x1b0ed, 0x1b0f0])]
@@ -94,14 +100,27 @@ const Main = () => {
 					<Subtitle>
 						Murasaki
 					</Subtitle>
-					<Button
-						as={Link}
-						block
-						to="/options"
-						variant="primary"
-					>
-						Start Game
-					</Button>
+					<ButtonWrapper>
+						<Button
+							as={Link}
+							disabled={!hasDataset}
+							block
+							to="/start"
+							variant="primary"
+						>
+							Start Game
+						</Button>
+					</ButtonWrapper>
+					<ButtonWrapper>
+						<Button
+							as={Link}
+							to="/datasets"
+							block
+							variant="outline"
+						>
+							Manage Datasets
+						</Button>
+					</ButtonWrapper>
 				</ContentWrapper>
 			</Content>
 		</Base>

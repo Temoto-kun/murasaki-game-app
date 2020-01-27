@@ -21,7 +21,7 @@ const pathStyles = {}
 
 for (let i = 0; i < 35; i++) {
 	pathStyles[`path[id$="s${i + 1}"]`] = {
-		animationDelay: `calc(500ms * ${i})`,
+		animationDelay: `calc(750ms * ${i})`,
 	}
 }
 
@@ -120,6 +120,7 @@ const LiteralDisplay = ({
 	return (
 		<Base
 			{...etcProps}
+			data-literal={literal}
 		>
 			{
 				typeof fallback === 'boolean'

@@ -119,9 +119,12 @@ const Main = ({
 	const [character, setCharacter, ] = React.useState({
 		literal: '',
 		reading_meaning: {
-			rmgroup: {
-				reading: [],
-			},
+			rmgroup: [
+				{
+					reading: [],
+					meaning: [],
+				}
+			],
 		},
 	})
 	const [images, setImages, ] = React.useState([])
@@ -129,7 +132,7 @@ const Main = ({
 	React.useEffect(() => {
 		const currentDatasetId = 'kanjidic2'
 		const { [currentDatasetId]: currentDataset, } = datasets
-		const { character: characters, } = currentDataset
+		const { entry: characters, } = currentDataset
 		const datasetLength = characters.length
 		setCharacter(oldCharacter => {
 			let newCharacter
@@ -148,7 +151,7 @@ const Main = ({
 			return
 		}
 		const { rmgroup, } = readingMeaning
-		const { meaning, } = rmgroup
+		const [{ meaning, }] = rmgroup
 		const englishMeanings = meaning.filter(m => typeof m === 'string')
 
 		const doFetchImage = async (meaning, i) => {
@@ -205,10 +208,12 @@ const Main = ({
 		rmgroup,
 	} = reading_meaning
 
-	const {
-		reading,
-		meaning,
-	} = rmgroup
+	const [
+		{
+			reading,
+			meaning,
+		}
+	] = rmgroup
 
 	return (
 		<Base>
@@ -220,7 +225,7 @@ const Main = ({
 					<TabLinkContainer>
 						{
 							JAPANESE_READINGS.map(r => (
-								reading.filter(r2 => r2['@_r_type'] === r.id).length > 0
+								reading.filter(r2 => r2['$']['r_type'] === r.id).length > 0
 								&& (
 									<TabLink
 										key={r.id}

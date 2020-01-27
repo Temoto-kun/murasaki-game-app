@@ -78,8 +78,6 @@ const propTypeExports = [
 
 let config
 
-console.log(REPLACE_ENV_VARIABLES)
-
 switch (process.env.CONTEXT) {
 	case 'browser-dev':
 		config = {
@@ -136,7 +134,7 @@ switch (process.env.CONTEXT) {
 		config.push({
 			input: './src/index.js',
 			output: {
-				file: pkg.module,
+				dir: pkg.module,
 				type: 'esm',
 			},
 			plugins: [
@@ -160,7 +158,7 @@ switch (process.env.CONTEXT) {
 		config.push({
 			input: './src/index.js',
 			output: {
-				file: pkg.main,
+				dir: pkg.main,
 				type: 'cjs',
 			},
 			plugins: [

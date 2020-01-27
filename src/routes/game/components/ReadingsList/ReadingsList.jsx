@@ -38,8 +38,8 @@ const ReadingsList = ({
 
 	React.useEffect(() => {
 		const theReadings = reading
-			.filter(r => r['@_r_type'] === type)
-			.map(r => r['#text'])
+			.filter(r => r['$']['r_type'] === type)
+			.map(r => r['$text'])
 
 		setReadings(theReadings)
 	}, [reading, type, ])

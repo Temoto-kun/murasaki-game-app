@@ -23,6 +23,9 @@ const Base = styled('button')({
 	cursor: 'pointer',
 	textDecoration: 'none',
 	boxSizing: 'border-box',
+	':disabled': {
+		opacity: 0.5,
+	},
 })
 
 const defaultVariantStyleSet = {
@@ -43,9 +46,11 @@ const variantStyleSets = {
  * Component for performing an action upon activation (e.g. when clicked).
  */
 const Button = ({
+	as = 'button',
 	size = 'medium',
 	variant = 'outline',
 	block = false,
+	disabled = false,
 	children,
 	...etcProps
 }) => {
@@ -54,6 +59,8 @@ const Button = ({
 	return (
 		<Base
 			{...etcProps}
+			as={disabled ? 'button' : as}
+			disabled={disabled}
 			style={{
 				...theVariantStyleSet,
 				minHeight: MIN_HEIGHTS[size],
@@ -68,6 +75,10 @@ const Button = ({
 
 Button.propTypes = {
 	/**
+	 * The resulting rendered element or component represented by this component.
+	 */
+	as: PropTypes.elementType,
+	/**
 	 * Size of the component.
 	 */
 	size: PropTypes.oneOf(['small', 'medium', 'large', ]),
@@ -79,6 +90,10 @@ Button.propTypes = {
 	 * Should the component take up the remaining space parallel to the content flow?
 	 */
 	block: PropTypes.bool,
+	/**
+	 * Is component unable to be activated?
+	 */
+	disabled: PropTypes.bool,
 	/**
 	 * Text to identify the action associated upon activation of the component.
 	 */
