@@ -80,7 +80,7 @@ const submitAnswer = ({
 }
 
 const fetchImage = async q => {
-	const response = await window.fetch(
+	const response = await fetch(
 		`${process.env.REACT_APP_IMAGE_SEARCH_BASE_URL}?q=${encodeURIComponent(q)}`,
 		{
 			headers: {

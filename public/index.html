@@ -56,6 +56,22 @@
 			margin: 0;
 		}
 	</style>
+	<style>
+		g[id^="kvg:StrokeNumbers"] {
+			display: none;
+		}
+
+		@keyframes dash {
+			0% {
+				opacity: 1;
+				stroke-dashoffset: 200%;
+			}
+			100% {
+				opacity: 1;
+				stroke-dashoffset: 0;
+			}
+		}
+	</style>
 </head>
 <body>
 <div id="root"></div>
