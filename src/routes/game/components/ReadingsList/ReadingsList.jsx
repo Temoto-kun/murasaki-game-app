@@ -15,13 +15,15 @@ const speakReading = r => () => {
 		.filter(v => v.lang === 'ja-JP')
 
 	// TODO be able to select other Japanese voice
-	const [firstJapaneseVoice, ] = japaneseVoices
+	const [firstJapaneseVoice = null, ] = japaneseVoices
 
-	const utterance = new SpeechSynthesisUtterance(r)
-	utterance.voice = firstJapaneseVoice
-	utterance.pitch = 1
-	utterance.rate = 0.7
-	speechSynthesis.speak(utterance)
+	if (firstJapaneseVoice !== null) {
+		const utterance = new SpeechSynthesisUtterance(r)
+		utterance.voice = firstJapaneseVoice
+		utterance.pitch = 1
+		utterance.rate = 0.7
+		speechSynthesis.speak(utterance)
+	}
 }
 
 const ReadingsList = ({
@@ -49,15 +51,17 @@ const ReadingsList = ({
 			.filter(v => v.lang === 'ja-JP')
 
 		// TODO be able to select other Japanese voice
-		const [firstJapaneseVoice, ] = japaneseVoices
+		const [firstJapaneseVoice = null, ] = japaneseVoices
 
-		readings.forEach(r => {
-			const utterance = new SpeechSynthesisUtterance(r)
-			utterance.voice = firstJapaneseVoice
-			utterance.pitch = 1
-			utterance.rate = 0.7
-			speechSynthesis.speak(utterance)
-		})
+		if (firstJapaneseVoice !== null) {
+			readings.forEach(r => {
+				const utterance = new SpeechSynthesisUtterance(r)
+				utterance.voice = firstJapaneseVoice
+				utterance.pitch = 1
+				utterance.rate = 0.7
+				speechSynthesis.speak(utterance)
+			})
+		}
 	}, [readings, ])
 
 	return (
