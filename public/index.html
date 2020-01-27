@@ -83,11 +83,21 @@
 	</style>
 </head>
 <body>
-<div id="root"></div>
 <script type="module">
 	import { run, } from '/index.js'
 
-	run('root')
+	let rootId = ''
+
+	for (let i = 0; i < 64; i++) {
+		rootId += Math.floor(Math.random() * 16).toString(16)
+	}
+
+	const rootElement = window.document.createElement('div')
+
+	rootElement.id = rootId
+
+	window.document.body.appendChild(rootElement)
+	run(rootId)
 </script>
 </body>
 </html>
