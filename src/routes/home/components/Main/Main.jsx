@@ -50,7 +50,7 @@ const Subtitle = styled('h2')({
 	textTransform: 'lowercase',
 	//fontWeight: 'bold',
 	fontWeight: 'light',
-	letterSpacing: '0.2em',
+	letterSpacing: '0.1em',
 	color: 'var(--color-primary)',
 })
 
@@ -91,7 +91,9 @@ const Main = () => {
 					<Title>
 						{title}
 					</Title>
-					<Subtitle>Murasaki</Subtitle>
+					<Subtitle>
+						Murasaki
+					</Subtitle>
 					<Button
 						as={Link}
 						block
