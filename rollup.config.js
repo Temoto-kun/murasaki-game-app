@@ -81,7 +81,7 @@ let config
 switch (process.env.CONTEXT) {
 	case 'browser-dev':
 		config = {
-			input: './src/index.js',
+			input: './src/index.mjs',
 			output: {
 				dir: pkg.browser,
 				type: 'iife',
@@ -132,7 +132,7 @@ switch (process.env.CONTEXT) {
 	case 'external':
 		config = []
 		config.push({
-			input: './src/index.js',
+			input: './src/index.mjs',
 			output: {
 				dir: pkg.module,
 				type: 'esm',
@@ -156,7 +156,7 @@ switch (process.env.CONTEXT) {
 		})
 
 		config.push({
-			input: './src/index.js',
+			input: './src/index.mjs',
 			output: {
 				dir: pkg.main,
 				type: 'cjs',
